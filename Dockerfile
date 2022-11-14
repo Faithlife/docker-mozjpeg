@@ -8,10 +8,10 @@ RUN apt-get update \
     libpng-dev \
     nasm
 
-ENV MOZJPEG_VERSION=d48cfe591f675ec4437505db2dce3ace656a1c6d
+ENV MOZJPEG_VERSION=4.1.1
 
 WORKDIR /usr/local/src/mozjpeg
-RUN curl -LSso mozjpeg.tar.gz https://github.com/mozilla/mozjpeg/archive/${MOZJPEG_VERSION}.tar.gz \
+RUN curl -LSso mozjpeg.tar.gz https://github.com/mozilla/mozjpeg/archive/refs/tags/v${MOZJPEG_VERSION}.tar.gz \
   && tar xf mozjpeg.tar.gz --strip-components=1 \
   && rm mozjpeg.tar.gz
 RUN cmake . \
@@ -19,7 +19,9 @@ RUN cmake . \
 
 FROM debian:11-slim
 
-COPY --from=builder /usr/local/src/mozjpeg/mozjpeg_4.0.0_amd64.deb /opt/mozjpeg/
+ENV MOZJPEG_VERSION=4.1.1
 
-RUN dpkg -i /opt/mozjpeg/mozjpeg_4.0.0_amd64.deb
+COPY --from=builder /usr/local/src/mozjpeg/mozjpeg_${MOZJPEG_VERSION}_amd64.deb /opt/mozjpeg/
+
+RUN dpkg -i /opt/mozjpeg/mozjpeg_${MOZJPEG_VERSION}_amd64.deb
 ENV PATH=${PATH}:/opt/mozjpeg/bin
