@@ -1,1 +1,1 @@
-A build of [mozjpeg](https://github.com/mozilla/mozjpeg) for Debian 9.
+A build of [mozjpeg](https://github.com/mozilla/mozjpeg) for Debian 11 (Bullseye).

@@ -1,4 +1,4 @@
-FROM debian:9 AS builder
+FROM debian:11 AS builder
 
 RUN apt-get update \
   && apt-get install -y \
@@ -17,7 +17,7 @@ RUN curl -LSso mozjpeg.tar.gz https://github.com/mozilla/mozjpeg/archive/${MOZJP
 RUN cmake . \
   && make deb
 
-FROM debian:9-slim
+FROM debian:11-slim
 
 COPY --from=builder /usr/local/src/mozjpeg/mozjpeg_4.0.0_amd64.deb /opt/mozjpeg/
 
